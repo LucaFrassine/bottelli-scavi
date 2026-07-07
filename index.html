@@ -309,10 +309,23 @@
 
     .perche-img {
       flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 240px 200px;
+      gap: 6px;
       border-radius: 8px;
       overflow: hidden;
-      min-height: 380px;
-      background: url('team.jpg') center/cover no-repeat;
+    }
+
+    .perche-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .perche-img img:first-child {
+      grid-column: span 2;
     }
 
     .perche-testo {
@@ -780,7 +793,11 @@
 
 <!-- ── PERCHE' NOI ─────────────────────────────────────── -->
 <section class="perche" id="perche">
-  <div class="perche-img"></div>
+  <div class="perche-img">
+    <img src="perche1.jpg" alt="Lavori cantiere" loading="lazy" style="object-position: center 40%;"/>
+    <img src="perche2.jpg" alt="Lavori cantiere" loading="lazy" style="object-position: center 40%;"/>
+    <img src="perche3.jpg" alt="Lavori cantiere" loading="lazy" style="object-position: center 40%;"/>
+  </div>
   <div class="perche-testo">
     <div class="badge">Perché sceglierci</div>
     <h3>Lavoriamo con <em>serietà</em><br/>dal primo preventivo</h3>
