@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bottelli Nicholas — Scavi, Demolizioni e Movimento Terra | Mezzomerico Novara</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --arancio: #E87722;
+      --arancio-scuro: #C45E00;
+      --grigio-scuro: #1A1A1A;
+      --grigio-medio: #2C2C2C;
+      --grigio-chiaro: #F5F5F5;
+      --testo: #333;
+      --bianco: #fff;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: var(--testo);
+      background: var(--bianco);
+    }
+
+    /* ─── HEADER ─────────────────────────────────────── */
+    header {
+      background: var(--grigio-scuro);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 72px;
+      border-bottom: 3px solid var(--arancio);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+    }
+
+    .logo-testo h1 {
+      color: var(--bianco);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+    }
+
+    .logo-testo span {
+      color: var(--arancio);
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      margin-left: 28px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--arancio); }
+
+    .btn-tel {
+      background: var(--arancio);
+      color: var(--bianco) !important;
+      padding: 9px 20px;
+      border-radius: 4px;
+      font-weight: 700 !important;
+      font-size: 0.9rem !important;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-tel:hover { background: var(--arancio-scuro) !important; }
+
+    /* ─── HERO ───────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 88vh;
+      min-height: 540px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80') center/cover no-repeat;
+      filter: brightness(0.38);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 80px;
+      max-width: 820px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--arancio);
+      color: var(--bianco);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 2px;
+      margin-bottom: 20px;
+    }
+
+    .hero-content h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--bianco);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 22px;
+    }
+
+    .hero-content h2 em {
+      color: var(--arancio);
+      font-style: normal;
+    }
+
+    .hero-content p {
+      color: #ccc;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 36px;
+      max-width: 580px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--arancio);
+      color: var(--bianco);
+      padding: 15px 34px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--arancio-scuro); }
+
+    .btn-secondary {
+      border: 2px solid rgba(255,255,255,0.4);
+      color: var(--bianco);
+      padding: 15px 34px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .btn-secondary:hover { border-color: var(--arancio); color: var(--arancio); }
+
+    /* ─── STRIP NUMERI ───────────────────────────────── */
+    .numeri {
+      background: var(--arancio);
+      display: flex;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .numero-item {
+      text-align: center;
+      padding: 28px 52px;
+      border-right: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .numero-item:last-child { border-right: none; }
+
+    .numero-item strong {
+      display: block;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--bianco);
+      line-height: 1;
+    }
+
+    .numero-item span {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── SERVIZI ─────────────────────────────────────── */
+    .sezione { padding: 90px 60px; }
+    .sezione-titolo {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .sezione-titolo h3 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--grigio-scuro);
+      margin-bottom: 12px;
+    }
+
+    .sezione-titolo p {
+      color: #666;
+      font-size: 1rem;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .linea-arancio {
+      width: 56px;
+      height: 4px;
+      background: var(--arancio);
+      margin: 14px auto 0;
+      border-radius: 2px;
+    }
+
+    .griglia-servizi {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card-servizio {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.09);
+      transition: transform 0.2s, box-shadow 0.2s;
+      background: var(--bianco);
+    }
+
+    .card-servizio:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 32px rgba(0,0,0,0.14);
+    }
+
+    .card-servizio img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-corpo {
+      padding: 22px 24px 26px;
+      border-top: 3px solid var(--arancio);
+    }
+
+    .card-icon {
+      margin-bottom: 12px;
+      color: var(--arancio);
+    }
+    .card-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--arancio);
+      stroke-width: 1.8;
+      fill: none;
+    }
+
+    .card-corpo h4 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--grigio-scuro);
+      margin-bottom: 8px;
+    }
+
+    .card-corpo p {
+      font-size: 0.88rem;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* ─── PERCHE' NOI ────────────────────────────────── */
+    .perche {
+      background: var(--grigio-scuro);
+      padding: 90px 60px;
+      display: flex;
+      gap: 70px;
+      align-items: center;
+      max-width: 100%;
+    }
+
+    .perche-img {
+      flex: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      min-height: 380px;
+      background: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=900&q=80') center/cover no-repeat;
+    }
+
+    .perche-testo {
+      flex: 1;
+    }
+
+    .perche-testo .badge { margin-bottom: 18px; }
+
+    .perche-testo h3 {
+      color: var(--bianco);
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 28px;
+      line-height: 1.2;
+    }
+
+    .perche-testo h3 em {
+      color: var(--arancio);
+      font-style: normal;
+    }
+
+    .punto {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 22px;
+      align-items: flex-start;
+    }
+
+    .punto-icon {
+      background: var(--arancio);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .punto-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: #fff;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .punto-testo strong {
+      display: block;
+      color: var(--bianco);
+      font-size: 0.95rem;
+      margin-bottom: 3px;
+    }
+
+    .punto-testo span {
+      color: #aaa;
+      font-size: 0.84rem;
+      line-height: 1.5;
+    }
+
+    /* ─── GALLERIA ───────────────────────────────────── */
+    .galleria {
+      background: var(--grigio-chiaro);
+    }
+
+    .griglia-foto {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 220px 220px;
+      gap: 6px;
+      max-width: 100%;
+    }
+
+    .foto-item {
+      overflow: hidden;
+      background: #ddd;
+    }
+
+    .foto-item.grande {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .foto-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s;
+    }
+
+    .foto-item:hover img { transform: scale(1.05); }
+
+    /* ─── CONTATTI ───────────────────────────────────── */
+    .contatti {
+      padding: 90px 60px;
+      display: flex;
+      gap: 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .contatti-info { flex: 1; }
+
+    .contatti-info h3 {
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: var(--grigio-scuro);
+      margin-bottom: 10px;
+    }
+
+    .contatti-info h3 em {
+      color: var(--arancio);
+      font-style: normal;
+    }
+
+    .contatti-info p {
+      color: #666;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .info-riga {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .info-riga .icon {
+      background: var(--arancio);
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .info-riga .icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: #fff;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .info-riga strong {
+      display: block;
+      font-size: 0.8rem;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .info-riga a, .info-riga span {
+      font-size: 1rem;
+      color: var(--grigio-scuro);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .info-riga a:hover { color: var(--arancio); }
+
+    .form-contatto { flex: 1; }
+
+    .form-contatto h4 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--grigio-scuro);
+      margin-bottom: 22px;
+    }
+
+    .form-row { display: flex; gap: 14px; }
+
+    .campo {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    .campo label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #555;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .campo input, .campo select, .campo textarea {
+      border: 1.5px solid #ddd;
+      border-radius: 5px;
+      padding: 11px 14px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      outline: none;
+      background: var(--bianco);
+    }
+
+    .campo input:focus, .campo select:focus, .campo textarea:focus {
+      border-color: var(--arancio);
+    }
+
+    .campo textarea { height: 110px; resize: vertical; }
+
+    .btn-invia {
+      background: var(--arancio);
+      color: var(--bianco);
+      border: none;
+      padding: 14px 36px;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+
+    .btn-invia:hover { background: var(--arancio-scuro); }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    footer {
+      background: var(--grigio-scuro);
+      color: #aaa;
+      text-align: center;
+      padding: 28px 40px;
+      font-size: 0.85rem;
+      border-top: 3px solid var(--arancio);
+    }
+
+    footer strong { color: var(--bianco); }
+
+    /* ─── WHATSAPP FLOAT ─────────────────────────────── */
+    .wa-float {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 999;
+      background: #25D366;
+      border-radius: 50%;
+      width: 58px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.28);
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .wa-float:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+    .wa-float svg { width: 32px; height: 32px; }
+
+    /* ─── RESPONSIVE 900px ───────────────────────────── */
+    @media (max-width: 900px) {
+      header { padding: 0 20px; height: 64px; }
+      .logo-testo h1 { font-size: 1.05rem; }
+      .griglia-servizi { grid-template-columns: 1fr 1fr; gap: 18px; }
+      .perche { flex-direction: column; padding: 60px 30px; gap: 40px; }
+      .perche-img { width: 100%; min-height: 260px; flex: none; }
+      .contatti { flex-direction: column; padding: 60px 30px; }
+      .griglia-foto { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .foto-item.grande { grid-column: span 2; height: 280px; }
+      .foto-item { height: 180px; }
+      .hero-content { padding: 0 30px; }
+      .hero { height: 70vh; min-height: 460px; }
+      .numeri { flex-wrap: wrap; }
+      .numero-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 18px 36px; width: 50%; }
+      .numero-item:last-child { border-bottom: none; }
+    }
+
+    /* ─── RESPONSIVE 600px (MOBILE) ─────────────────── */
+    @media (max-width: 600px) {
+      header { padding: 0 16px; height: 60px; }
+      .logo-icon { width: 36px; height: 36px; }
+      .logo-testo h1 { font-size: 1rem; }
+      .logo-testo span { display: none; }
+      nav a:not(.btn-tel) { display: none; }
+      .btn-tel { padding: 8px 14px; font-size: 0.82rem !important; }
+
+      .hero { height: 100svh; min-height: 560px; }
+      .hero-content { padding: 0 22px; }
+      .hero-content h2 { font-size: 1.85rem; }
+      .hero-content p { font-size: 0.95rem; margin-bottom: 28px; }
+      .hero-cta { flex-direction: column; gap: 12px; }
+      .btn-primary, .btn-secondary { text-align: center; padding: 14px 24px; }
+
+      .numeri { flex-direction: column; }
+      .numero-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 16px 24px; }
+
+      .sezione { padding: 52px 18px; }
+      .sezione-titolo h3 { font-size: 1.6rem; }
+      .griglia-servizi { grid-template-columns: 1fr; gap: 20px; }
+      .card-servizio img { height: 180px; }
+
+      .perche { padding: 52px 18px; gap: 32px; }
+      .perche-testo h3 { font-size: 1.55rem; }
+      .perche-img { min-height: 220px; }
+
+      .griglia-foto { grid-template-columns: 1fr; gap: 4px; }
+      .foto-item.grande { grid-column: span 1; height: 240px; }
+      .foto-item { height: 180px; }
+
+      .contatti { padding: 52px 18px; gap: 40px; }
+      .contatti-info h3 { font-size: 1.55rem; }
+      .form-row { flex-direction: column; gap: 0; }
+      .campo input, .campo select, .campo textarea { font-size: 16px; }
+
+      footer { padding: 22px 18px; font-size: 0.8rem; }
+      .wa-float { bottom: 16px; right: 16px; width: 52px; height: 52px; }
+    }
+
+    @media (max-width: 380px) {
+      .hero-content h2 { font-size: 1.55rem; }
+      .logo-testo h1 { font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ──────────────────────────────────────────── -->
+<header>
+  <div class="logo">
+    <svg class="logo-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="44" height="44" rx="6" fill="#E87722"/>
+      <path d="M8 34L14 18L20 26L26 14L36 34H8Z" fill="white" opacity="0.9"/>
+      <rect x="6" y="32" width="32" height="4" rx="1" fill="white"/>
+      <circle cx="32" cy="16" r="5" fill="white" opacity="0.7"/>
+    </svg>
+    <div class="logo-testo">
+      <h1>BOTTELLI NICHOLAS</h1>
+      <span>Scavi · Demolizioni · Movimento Terra</span>
+    </div>
+  </div>
+  <nav>
+    <a href="#servizi">Servizi</a>
+    <a href="#perche">Chi siamo</a>
+    <a href="#galleria">Lavori</a>
+    <a href="tel:+393495688609" class="btn-tel">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;vertical-align:middle;margin-right:6px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>349 568 8609
+    </a>
+  </nav>
+</header>
+
+<!-- ── HERO ───────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-content">
+    <div class="badge">Partita IVA — Lavori professionali</div>
+    <h2>Scavi, Movimento Terra<br/>e <em>Demolizioni</em> Controllate</h2>
+    <p>Interveniamo su cantieri privati e aziendali con mezzi propri e personale specializzato. Preventivo gratuito entro 24 ore.</p>
+    <div class="hero-cta">
+      <a href="#contatti" class="btn-primary">Richiedi preventivo gratuito</a>
+      <a href="#servizi" class="btn-secondary">Scopri i servizi</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── NUMERI ──────────────────────────────────────────── -->
+<div class="numeri">
+  <div class="numero-item">
+    <strong>48h</strong>
+    <span>Preventivo in 48 ore</span>
+  </div>
+  <div class="numero-item">
+    <strong>100%</strong>
+    <span>Smaltimento regolare</span>
+  </div>
+  <div class="numero-item">
+    <strong>Mezzi propri</strong>
+    <span>Nessun intermediario</span>
+  </div>
+  <div class="numero-item">
+    <strong>Reg. CCIAA</strong>
+    <span>Impresa iscritta</span>
+  </div>
+</div>
+
+<!-- ── SERVIZI ─────────────────────────────────────────── -->
+<section class="sezione" id="servizi">
+  <div class="sezione-titolo">
+    <h3>I Nostri Servizi</h3>
+    <p>Soluzioni complete per il movimento terra, demolizioni e smaltimento. Interveniamo in tutta la provincia.</p>
+    <div class="linea-arancio"></div>
+  </div>
+
+  <div class="griglia-servizi">
+
+    <div class="card-servizio">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75" alt="Scavi e movimento terra" loading="lazy"/>
+      <div class="card-corpo">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 4-4"/><path d="m5 11 4.5-4.5a2.12 2.12 0 1 1 3 3L8 14l-3 3z"/><path d="m11 9 2-2"/><path d="m20 4-9 9"/><path d="m15 3 6 6"/></svg>
+        </div>
+        <h4>Scavi e Movimento Terra</h4>
+        <p>Sbancamenti, scavi a sezione, movimentazione di terreno per fondazioni, piscine, interrati e recinzioni.</p>
+      </div>
+    </div>
+
+    <div class="card-servizio">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=75" alt="Scavi di precisione" loading="lazy"/>
+      <div class="card-corpo">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <h4>Scavi di Precisione</h4>
+        <p>Mini-escavatori per interventi in spazi ridotti: cortili, giardini, zone ad alta densità edilizia. Nessun danno alle strutture adiacenti.</p>
+      </div>
+    </div>
+
+    <div class="card-servizio">
+      <img src="https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=600&q=75" alt="Demolizioni controllate" loading="lazy"/>
+      <div class="card-corpo">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg>
+        </div>
+        <h4>Demolizioni Controllate</h4>
+        <p>Abbattimento selettivo di fabbricati, tamponature, solette e strutture in cemento armato con gestione sicura delle polveri.</p>
+      </div>
+    </div>
+
+    <div class="card-servizio">
+      <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=75" alt="Fornitura terra e inerti" loading="lazy"/>
+      <div class="card-corpo">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg>
+        </div>
+        <h4>Fornitura Terra e Inerti</h4>
+        <p>Fornitura e trasporto di terra di riporto, ghiaia, sabbia, misto granulare e tout-venant per cantieri e privati.</p>
+      </div>
+    </div>
+
+    <div class="card-servizio">
+      <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=75" alt="Rimozione radici e ceppaie" loading="lazy"/>
+      <div class="card-corpo">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14h.01"/><path d="M7 7h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7"/><path d="M5 17H3"/><path d="M5 7H3"/><path d="M5 12H3"/><path d="M5 2v5"/><path d="M5 17v5"/><path d="m17 14 3-3-3-3"/></svg>
+        </div>
+        <h4>Rimozione Radici e Ceppaie</h4>
+        <p>Estirpazione meccanica di ceppaie, radici affioranti e alberi abbattuti. Ripristino del terreno pronto alla semina o alla costruzione.</p>
+      </div>
+    </div>
+
+    <div class="card-servizio">
+      <img src="https://images.unsplash.com/photo-1530062845289-9109b2c9c868?w=600&q=75" alt="Smaltimento macerie" loading="lazy"/>
+      <div class="card-corpo">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"/><path d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12"/><path d="m14 16-3 3 3 3"/><path d="M8.293 13.596 7.196 9.5 3.1 10.598"/><path d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843"/><path d="m13.378 9.633 4.096 1.098 1.097-4.096"/></svg>
+        </div>
+        <h4>Smaltimento Macerie</h4>
+        <p>Raccolta, trasporto e smaltimento in impianti autorizzati di macerie, inerti e rifiuti speciali da demolizione. Formulari e documenti a norma.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── PERCHE' NOI ─────────────────────────────────────── -->
+<section class="perche" id="perche">
+  <div class="perche-img"></div>
+  <div class="perche-testo">
+    <div class="badge">Perché sceglierci</div>
+    <h3>Lavoriamo con <em>serietà</em><br/>dal primo preventivo</h3>
+
+    <div class="punto">
+      <div class="punto-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="punto-testo">
+        <strong>Mezzi propri, nessun intermediario</strong>
+        <span>Escavatori, dumper e attrezzature di nostra proprietà. Costi trasparenti, nessuna maggiorazione.</span>
+      </div>
+    </div>
+
+    <div class="punto">
+      <div class="punto-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="punto-testo">
+        <strong>Preventivo gratuito in 48 ore</strong>
+        <span>Sopralluogo rapido e offerta dettagliata senza impegno. Prezzi chiari e senza sorprese.</span>
+      </div>
+    </div>
+
+    <div class="punto">
+      <div class="punto-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="punto-testo">
+        <strong>Smaltimento completamente tracciato</strong>
+        <span>Tutti i rifiuti speciali vengono smaltiti in impianti autorizzati con formulari di trasporto regolari.</span>
+      </div>
+    </div>
+
+    <div class="punto">
+      <div class="punto-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="punto-testo">
+        <strong>Intervento rapido e puntuale</strong>
+        <span>Rispettiamo i tempi concordati. Cantiere pulito e sicuro durante tutta la durata dei lavori.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERIA ────────────────────────────────────────── -->
+<section class="galleria sezione" id="galleria">
+  <div class="sezione-titolo">
+    <h3>I Nostri Lavori</h3>
+    <p>Alcuni esempi di cantieri completati. Ogni progetto è unico.</p>
+    <div class="linea-arancio"></div>
+  </div>
+
+  <div class="griglia-foto">
+    <div class="foto-item grande">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=75" alt="Cantiere escavazione" loading="lazy"/>
+    </div>
+    <div class="foto-item">
+      <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&q=75" alt="Movimento terra" loading="lazy"/>
+    </div>
+    <div class="foto-item">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75" alt="Scavi fondazioni" loading="lazy"/>
+    </div>
+    <div class="foto-item">
+      <img src="https://images.unsplash.com/photo-1530062845289-9109b2c9c868?w=600&q=75" alt="Smaltimento macerie" loading="lazy"/>
+    </div>
+    <div class="foto-item">
+      <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=75" alt="Lavori verde" loading="lazy"/>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTATTI ────────────────────────────────────────── -->
+<section id="contatti">
+  <div class="contatti">
+    <div class="contatti-info">
+      <div class="badge" style="background:var(--arancio); color:white; display:inline-block; padding:5px 14px; border-radius:2px; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; margin-bottom:14px;">Contatti</div>
+      <h3>Chiedi un <em>preventivo</em><br/>gratuito</h3>
+      <p>Rispondiamo entro 24 ore. Sopralluogo senza impegno.</p>
+
+      <div class="info-riga">
+        <div class="icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <div>
+          <strong>Telefono / WhatsApp</strong>
+          <a href="tel:+393495688609">+39 349 568 8609</a>
+        </div>
+      </div>
+
+      <div class="info-riga">
+        <div class="icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+        <div>
+          <strong>Email</strong>
+          <a href="mailto:niko-bart@hotmail.com">niko-bart@hotmail.com</a>
+        </div>
+      </div>
+
+      <div class="info-riga">
+        <div class="icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div>
+          <strong>Zona operativa</strong>
+          <span>Mezzomerico (NO) e provincia di Novara</span>
+        </div>
+      </div>
+
+      <div class="info-riga">
+        <div class="icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div>
+          <strong>Orari</strong>
+          <span>Lun–Sab 7:30 – 18:00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-contatto">
+      <h4>Scrivi direttamente</h4>
+      <form>
+        <div class="form-row">
+          <div class="campo">
+            <label>Nome *</label>
+            <input type="text" placeholder="Es. Giuseppe Bianchi" required/>
+          </div>
+          <div class="campo">
+            <label>Telefono *</label>
+            <input type="tel" placeholder="+39 333 000 0000" required/>
+          </div>
+        </div>
+        <div class="campo">
+          <label>Email</label>
+          <input type="email" placeholder="mario@email.it"/>
+        </div>
+        <div class="campo">
+          <label>Tipo di lavoro</label>
+          <select>
+            <option value="">— Seleziona —</option>
+            <option>Scavi e movimento terra</option>
+            <option>Scavi di precisione</option>
+            <option>Demolizione controllata</option>
+            <option>Fornitura terra / inerti</option>
+            <option>Rimozione radici / ceppaie</option>
+            <option>Smaltimento macerie</option>
+            <option>Altro / più servizi</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label>Descrizione lavoro</label>
+          <textarea placeholder="Descrivi brevemente il lavoro: ubicazione, dimensioni, tempistiche indicative..."></textarea>
+        </div>
+        <button type="submit" class="btn-invia">Invia richiesta preventivo &rarr;</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────────────────── -->
+<footer>
+  <strong>Bottelli Nicholas</strong> &mdash; P.IVA 02853010037 &nbsp;|&nbsp;
+  Mezzomerico (NO) &nbsp;|&nbsp;
+  <a href="tel:+393495688609" style="color:var(--arancio);">+39 349 568 8609</a>
+  <br/><br/>
+  <span style="font-size:0.78rem; color:#666;">&copy; 2025 Bottelli Nicholas &mdash; Tutti i diritti riservati</span>
+</footer>
+
+<!-- ── WHATSAPP FLOAT ───────────────────────────────────── -->
+<a class="wa-float" href="https://wa.me/393495688609?text=Ciao%20Nicholas%2C%20vorrei%20un%20preventivo%20per%20i%20vostri%20servizi." target="_blank" rel="noopener" aria-label="Contattaci su WhatsApp">
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="16" cy="16" r="16" fill="#25D366"/>
+    <path d="M22.9 9.1A9.7 9.7 0 0 0 16 6.3a9.8 9.8 0 0 0-8.5 14.6L6.3 25.7l4.9-1.3a9.8 9.8 0 0 0 4.8 1.2 9.8 9.8 0 0 0 9.8-9.8 9.7 9.7 0 0 0-2.9-6.7zm-6.9 15.1a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3a8.1 8.1 0 1 1 6.8 3.7zm4.5-6.1c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.7.8-.8 1-.2.2-.3.2-.5.1a7 7 0 0 1-2-1.3 7.5 7.5 0 0 1-1.4-1.8c-.1-.2 0-.4.1-.5l.4-.4.2-.4v-.4l-.7-1.8c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3a3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.8 11.8 0 0 0 4.5 4 5 5 0 0 0 1.7.5 2.7 2.7 0 0 0 1.8-.6 2.3 2.3 0 0 0 .6-1.5c0-.2-.2-.4-.4-.5z" fill="white"/>
+  </svg>
+</a>
+
+</body>
+</html>
