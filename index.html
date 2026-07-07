@@ -8,19 +8,19 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --arancio: #E87722;
-      --arancio-scuro: #C45E00;
-      --grigio-scuro: #1A1A1A;
-      --grigio-medio: #2C2C2C;
-      --grigio-chiaro: #F5F5F5;
-      --testo: #333;
+      --arancio: #C8FF00;
+      --arancio-scuro: #A8D900;
+      --grigio-scuro: #0A0A0A;
+      --grigio-medio: #181818;
+      --grigio-chiaro: #111111;
+      --testo: #e0e0e0;
       --bianco: #fff;
     }
 
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
       color: var(--testo);
-      background: var(--bianco);
+      background: #0A0A0A;
     }
 
     /* ─── HEADER ─────────────────────────────────────── */
@@ -115,7 +115,7 @@
     .badge {
       display: inline-block;
       background: var(--arancio);
-      color: var(--bianco);
+      color: #000;
       font-size: 0.72rem;
       font-weight: 700;
       letter-spacing: 2.5px;
@@ -198,12 +198,12 @@
       display: block;
       font-size: 2.2rem;
       font-weight: 900;
-      color: var(--bianco);
+      color: #000;
       line-height: 1;
     }
 
     .numero-item span {
-      color: rgba(255,255,255,0.85);
+      color: rgba(0,0,0,0.75);
       font-size: 0.82rem;
       font-weight: 600;
       letter-spacing: 0.5px;
@@ -219,12 +219,12 @@
     .sezione-titolo h3 {
       font-size: 2rem;
       font-weight: 900;
-      color: var(--grigio-scuro);
+      color: #fff;
       margin-bottom: 12px;
     }
 
     .sezione-titolo p {
-      color: #666;
+      color: #aaa;
       font-size: 1rem;
       max-width: 520px;
       margin: 0 auto;
@@ -250,14 +250,14 @@
     .card-servizio {
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.09);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
       transition: transform 0.2s, box-shadow 0.2s;
-      background: var(--bianco);
+      background: #161616;
     }
 
     .card-servizio:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 32px rgba(0,0,0,0.14);
+      box-shadow: 0 10px 32px rgba(200,255,0,0.15);
     }
 
     .card-servizio img {
@@ -287,19 +287,19 @@
     .card-corpo h4 {
       font-size: 1.05rem;
       font-weight: 800;
-      color: var(--grigio-scuro);
+      color: #fff;
       margin-bottom: 8px;
     }
 
     .card-corpo p {
       font-size: 0.88rem;
-      color: #666;
+      color: #999;
       line-height: 1.6;
     }
 
     /* ─── PERCHE' NOI ────────────────────────────────── */
     .perche {
-      background: var(--grigio-scuro);
+      background: #111;
       padding: 90px 60px;
       display: flex;
       gap: 70px;
@@ -374,7 +374,7 @@
 
     /* ─── GALLERIA ───────────────────────────────────── */
     .galleria {
-      background: var(--grigio-chiaro);
+      background: #0A0A0A;
     }
 
     .griglia-foto {
@@ -419,7 +419,7 @@
     .contatti-info h3 {
       font-size: 1.9rem;
       font-weight: 900;
-      color: var(--grigio-scuro);
+      color: #fff;
       margin-bottom: 10px;
     }
 
@@ -429,7 +429,7 @@
     }
 
     .contatti-info p {
-      color: #666;
+      color: #999;
       margin-bottom: 32px;
       line-height: 1.6;
     }
@@ -469,7 +469,7 @@
 
     .info-riga a, .info-riga span {
       font-size: 1rem;
-      color: var(--grigio-scuro);
+      color: #fff;
       font-weight: 600;
       text-decoration: none;
     }
@@ -481,7 +481,7 @@
     .form-contatto h4 {
       font-size: 1.15rem;
       font-weight: 800;
-      color: var(--grigio-scuro);
+      color: #fff;
       margin-bottom: 22px;
     }
 
@@ -497,21 +497,22 @@
     .campo label {
       font-size: 0.8rem;
       font-weight: 700;
-      color: #555;
+      color: #aaa;
       margin-bottom: 6px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .campo input, .campo select, .campo textarea {
-      border: 1.5px solid #ddd;
+      border: 1.5px solid #2a2a2a;
       border-radius: 5px;
       padding: 11px 14px;
       font-size: 0.95rem;
       font-family: inherit;
       transition: border-color 0.2s;
       outline: none;
-      background: var(--bianco);
+      background: #161616;
+      color: #fff;
     }
 
     .campo input:focus, .campo select:focus, .campo textarea:focus {
@@ -522,7 +523,7 @@
 
     .btn-invia {
       background: var(--arancio);
-      color: var(--bianco);
+      color: #000;
       border: none;
       padding: 14px 36px;
       border-radius: 5px;
@@ -537,15 +538,15 @@
 
     /* ─── FOOTER ─────────────────────────────────────── */
     footer {
-      background: var(--grigio-scuro);
-      color: #aaa;
+      background: #000;
+      color: #666;
       text-align: center;
       padding: 28px 40px;
       font-size: 0.85rem;
       border-top: 3px solid var(--arancio);
     }
 
-    footer strong { color: var(--bianco); }
+    footer strong { color: #fff; }
 
     /* ─── WHATSAPP FLOAT ─────────────────────────────── */
     .wa-float {
@@ -637,12 +638,7 @@
 <!-- ── HEADER ──────────────────────────────────────────── -->
 <header>
   <div class="logo">
-    <svg class="logo-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="44" height="44" rx="6" fill="#E87722"/>
-      <path d="M8 34L14 18L20 26L26 14L36 34H8Z" fill="white" opacity="0.9"/>
-      <rect x="6" y="32" width="32" height="4" rx="1" fill="white"/>
-      <circle cx="32" cy="16" r="5" fill="white" opacity="0.7"/>
-    </svg>
+    <img src="logo.jpg" alt="Bottelli Scavi e Demolizioni" class="logo-icon" style="width:56px;height:56px;object-fit:contain;border-radius:4px;"/>
     <div class="logo-testo">
       <h1>BOTTELLI NICHOLAS</h1>
       <span>Scavi · Demolizioni · Movimento Terra</span>
@@ -843,7 +839,7 @@
 <section id="contatti">
   <div class="contatti">
     <div class="contatti-info">
-      <div class="badge" style="background:var(--arancio); color:white; display:inline-block; padding:5px 14px; border-radius:2px; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; margin-bottom:14px;">Contatti</div>
+      <div class="badge" style="background:var(--arancio); color:#000; display:inline-block; padding:5px 14px; border-radius:2px; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; margin-bottom:14px;">Contatti</div>
       <h3>Chiedi un <em>preventivo</em><br/>gratuito</h3>
       <p>Rispondiamo entro 24 ore. Sopralluogo senza impegno.</p>
 
