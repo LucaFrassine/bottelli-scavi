@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preventivatore Online — Bottelli Scavi e Demolizioni</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --giallo: #C8FF00;
+      --giallo-scuro: #A8D900;
+      --nero: #0A0A0A;
+      --card: #161616;
+      --bordo: #2a2a2a;
+      --testo: #e0e0e0;
+      --grigio: #999;
+    }
+
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--nero); color: var(--testo); min-height: 100vh; }
+
+    /* ─── HEADER ─── */
+    header {
+      background: #000;
+      border-bottom: 3px solid var(--giallo);
+      padding: 0 40px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo img { height: 52px; width: 52px; object-fit: cover; border-radius: 4px; }
+    .logo-testo h1 { color: #fff; font-size: 1.1rem; font-weight: 800; line-height: 1.1; }
+    .logo-testo span { color: var(--giallo); font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+
+    .btn-tel {
+      background: var(--giallo);
+      color: #000;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-tel:hover { background: var(--giallo-scuro); }
+
+    /* ─── MINI HERO ─── */
+    .pag-hero {
+      background: #111;
+      border-bottom: 1px solid var(--bordo);
+      padding: 48px 40px 40px;
+      text-align: center;
+    }
+    .pag-hero .badge {
+      display: inline-block;
+      background: var(--giallo);
+      color: #000;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 2px;
+      margin-bottom: 16px;
+    }
+    .pag-hero h2 { font-size: 2.2rem; font-weight: 900; color: #fff; margin-bottom: 10px; }
+    .pag-hero h2 em { color: var(--giallo); font-style: normal; }
+    .pag-hero p { color: var(--grigio); font-size: 1rem; }
+
+    /* ─── PROGRESS BAR ─── */
+    .progress-wrap {
+      max-width: 680px;
+      margin: 36px auto 0;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .step-label {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    .step-label .dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bordo);
+      border: 2px solid var(--bordo);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--grigio);
+      transition: all 0.3s;
+      position: relative;
+      z-index: 2;
+    }
+
+    .step-label.attivo .dot { background: var(--giallo); border-color: var(--giallo); color: #000; }
+    .step-label.completato .dot { background: var(--giallo); border-color: var(--giallo); color: #000; }
+
+    .step-label span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--grigio);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .step-label.attivo span { color: var(--giallo); }
+    .step-label.completato span { color: #fff; }
+
+    .step-linea {
+      flex: 1;
+      height: 2px;
+      background: var(--bordo);
+      margin-bottom: 24px;
+      transition: background 0.3s;
+    }
+    .step-linea.attiva { background: var(--giallo); }
+
+    /* ─── WIZARD ─── */
+    .wizard {
+      max-width: 760px;
+      margin: 40px auto 80px;
+      padding: 0 20px;
+    }
+
+    .step-content { display: none; }
+    .step-content.visibile { display: block; }
+
+    .step-titolo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .step-sub {
+      color: var(--grigio);
+      font-size: 0.9rem;
+      margin-bottom: 28px;
+    }
+
+    /* ─── CARDS SERVIZIO ─── */
+    .griglia-servizi {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .card-serv {
+      background: var(--card);
+      border: 2px solid var(--bordo);
+      border-radius: 8px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      text-align: center;
+    }
+    .card-serv:hover { border-color: var(--giallo); }
+    .card-serv.selezionata { border-color: var(--giallo); background: #1e2400; }
+
+    .card-serv svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--giallo);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      margin-bottom: 10px;
+    }
+    .card-serv span {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    /* ─── INPUTS ─── */
+    .campo { margin-bottom: 20px; }
+    .campo label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--grigio);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .campo input, .campo select {
+      width: 100%;
+      background: var(--card);
+      border: 1.5px solid var(--bordo);
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      color: #fff;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .campo input:focus, .campo select:focus { border-color: var(--giallo); }
+    .campo input::placeholder { color: #555; }
+
+    .campo-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .campo-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+    .hint {
+      font-size: 0.8rem;
+      color: #555;
+      margin-top: 6px;
+    }
+
+    /* ─── SCELTE RADIO VISIVE ─── */
+    .scelte { display: flex; gap: 10px; flex-wrap: wrap; }
+    .scelta {
+      flex: 1;
+      min-width: 100px;
+      background: var(--card);
+      border: 2px solid var(--bordo);
+      border-radius: 6px;
+      padding: 12px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .scelta:hover { border-color: var(--giallo); }
+    .scelta.attiva { border-color: var(--giallo); background: #1e2400; }
+    .scelta strong { display: block; font-size: 0.88rem; color: #fff; margin-bottom: 3px; }
+    .scelta small { font-size: 0.72rem; color: var(--grigio); }
+
+    /* ─── SEZIONE INPUT DINAMICA ─── */
+    .gruppo-input { display: none; }
+    .gruppo-input.visibile { display: block; }
+
+    /* ─── NAVIGAZIONE ─── */
+    .nav-wizard {
+      display: flex;
+      gap: 12px;
+      margin-top: 36px;
+      justify-content: space-between;
+    }
+
+    .btn-avanti {
+      background: var(--giallo);
+      color: #000;
+      border: none;
+      padding: 14px 36px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex: 1;
+    }
+    .btn-avanti:hover { background: var(--giallo-scuro); }
+    .btn-avanti:disabled { background: #2a2a2a; color: #555; cursor: not-allowed; }
+
+    .btn-indietro {
+      background: transparent;
+      color: var(--grigio);
+      border: 2px solid var(--bordo);
+      padding: 14px 24px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-indietro:hover { border-color: #fff; color: #fff; }
+
+    /* ─── RISULTATO ─── */
+    .risultato-box {
+      background: var(--card);
+      border: 2px solid var(--giallo);
+      border-radius: 10px;
+      padding: 32px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .risultato-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--grigio);
+      margin-bottom: 12px;
+    }
+    .risultato-range {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--giallo);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .risultato-sub { font-size: 0.85rem; color: var(--grigio); }
+
+    .riepilogo {
+      background: #111;
+      border: 1px solid var(--bordo);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+    .riepilogo h4 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--grigio);
+      margin-bottom: 14px;
+    }
+    .riepilogo-riga {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--bordo);
+      font-size: 0.88rem;
+    }
+    .riepilogo-riga:last-child { border-bottom: none; }
+    .riepilogo-riga span:first-child { color: var(--grigio); }
+    .riepilogo-riga span:last-child { color: #fff; font-weight: 600; }
+
+    .disclaimer {
+      background: #111;
+      border-left: 3px solid var(--giallo);
+      padding: 14px 18px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.82rem;
+      color: var(--grigio);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .btn-wa {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: #25D366;
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 700;
+      transition: background 0.2s;
+      margin-bottom: 12px;
+    }
+    .btn-wa:hover { background: #1da851; }
+    .btn-wa svg { width: 24px; height: 24px; fill: #fff; flex-shrink: 0; }
+
+    .btn-riparti {
+      display: block;
+      text-align: center;
+      color: var(--grigio);
+      font-size: 0.88rem;
+      cursor: pointer;
+      padding: 10px;
+      text-decoration: underline;
+    }
+    .btn-riparti:hover { color: #fff; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #000;
+      border-top: 3px solid var(--giallo);
+      color: #666;
+      text-align: center;
+      padding: 24px 20px;
+      font-size: 0.82rem;
+    }
+    footer strong { color: #fff; }
+    footer a { color: var(--giallo); text-decoration: none; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 600px) {
+      header { padding: 0 16px; height: 60px; }
+      .logo-testo span { display: none; }
+      .pag-hero { padding: 36px 20px 28px; }
+      .pag-hero h2 { font-size: 1.7rem; }
+      .griglia-servizi { grid-template-columns: 1fr 1fr; }
+      .campo-row, .campo-row-3 { grid-template-columns: 1fr; }
+      .risultato-range { font-size: 2.2rem; }
+      .risultato-box { padding: 24px 16px; }
+      .riepilogo { padding: 16px; }
+    }
+
+    @media (max-width: 380px) {
+      .griglia-servizi { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <a href="index.html" class="logo">
+    <img src="logo.jpg" alt="Bottelli Scavi"/>
+    <div class="logo-testo">
+      <h1>BOTTELLI NICHOLAS</h1>
+      <span>Scavi · Demolizioni · Movimento Terra</span>
+    </div>
+  </a>
+  <a href="tel:+393495688609" class="btn-tel">&#x260E; 349 568 8609</a>
+</header>
+
+<!-- ── MINI HERO ── -->
+<div class="pag-hero">
+  <div class="badge">Strumento gratuito</div>
+  <h2>Preventivatore <em>Online</em></h2>
+  <p>Stima il costo del tuo lavoro in 4 passaggi. Nessun impegno.</p>
+</div>
+
+<!-- ── PROGRESS BAR ── -->
+<div class="progress-wrap" id="progressWrap">
+  <div class="step-label attivo" id="dot1"><div class="dot">1</div><span>Servizio</span></div>
+  <div class="step-linea" id="linea1"></div>
+  <div class="step-label" id="dot2"><div class="dot">2</div><span>Misure</span></div>
+  <div class="step-linea" id="linea2"></div>
+  <div class="step-label" id="dot3"><div class="dot">3</div><span>Dettagli</span></div>
+  <div class="step-linea" id="linea3"></div>
+  <div class="step-label" id="dot4"><div class="dot">4</div><span>Stima</span></div>
+</div>
+
+<!-- ── WIZARD ── -->
+<div class="wizard">
+
+  <!-- STEP 1: Servizio -->
+  <div class="step-content visibile" id="step1">
+    <div class="step-titolo">Che tipo di lavoro ti serve?</div>
+    <div class="step-sub">Seleziona il servizio. Potrai affinare i dettagli nei passi successivi.</div>
+
+    <div class="griglia-servizi">
+      <div class="card-serv" onclick="selezionaServizio('scavi', this)">
+        <svg viewBox="0 0 24 24"><path d="m3 17 4-4"/><path d="m5 11 4.5-4.5a2.12 2.12 0 1 1 3 3L8 14l-3 3z"/><path d="m11 9 2-2"/><path d="m20 4-9 9"/><path d="m15 3 6 6"/></svg>
+        <span>Scavi e movimento terra</span>
+      </div>
+      <div class="card-serv" onclick="selezionaServizio('precisione', this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        <span>Scavi di precisione</span>
+      </div>
+      <div class="card-serv" onclick="selezionaServizio('demolizioni', this)">
+        <svg viewBox="0 0 24 24"><path d="m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg>
+        <span>Demolizioni controllate</span>
+      </div>
+      <div class="card-serv" onclick="selezionaServizio('inerti', this)">
+        <svg viewBox="0 0 24 24"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg>
+        <span>Fornitura terra e inerti</span>
+      </div>
+      <div class="card-serv" onclick="selezionaServizio('radici', this)">
+        <svg viewBox="0 0 24 24"><path d="M17 14h.01"/><path d="M7 7h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7"/><path d="M5 17H3"/><path d="M5 7H3"/><path d="M5 12H3"/><path d="M5 2v5"/><path d="M5 17v5"/><path d="m17 14 3-3-3-3"/></svg>
+        <span>Rimozione radici e ceppaie</span>
+      </div>
+      <div class="card-serv" onclick="selezionaServizio('smaltimento', this)">
+        <svg viewBox="0 0 24 24"><path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"/><path d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12"/><path d="m14 16-3 3 3 3"/><path d="M8.293 13.596 7.196 9.5 3.1 10.598"/><path d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843"/><path d="m13.378 9.633 4.096 1.098 1.097-4.096"/></svg>
+        <span>Smaltimento macerie</span>
+      </div>
+      <div class="card-serv" onclick="selezionaServizio('piscine', this)" style="grid-column: span 1;">
+        <svg viewBox="0 0 24 24"><path d="M2 12h20"/><path d="M2 12c2-4 4-6 6-6s4 4 6 4 4-4 6-4"/><path d="M2 18c2-2 4-3 6-3s4 2 6 2 4-2 6-2"/></svg>
+        <span>Fornitura e posa piscine</span>
+      </div>
+    </div>
+
+    <div class="nav-wizard">
+      <button class="btn-avanti" id="btnAvanti1" onclick="vaiStep(2)" disabled>Avanti →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Misure -->
+  <div class="step-content" id="step2">
+    <div class="step-titolo">Inserisci le misure</div>
+    <div class="step-sub" id="step2Sub">Inserisci le dimensioni approssimative del lavoro.</div>
+
+    <!-- Scavi / Precisione / Piscine -->
+    <div class="gruppo-input" id="inputVolume">
+      <div class="campo-row-3">
+        <div class="campo">
+          <label>Larghezza (m)</label>
+          <input type="number" id="larghezza" placeholder="es. 5" min="0.1" step="0.1"/>
+        </div>
+        <div class="campo">
+          <label>Lunghezza (m)</label>
+          <input type="number" id="lunghezza" placeholder="es. 8" min="0.1" step="0.1"/>
+        </div>
+        <div class="campo">
+          <label>Profondità (m)</label>
+          <input type="number" id="profondita" placeholder="es. 1.5" min="0.1" step="0.1"/>
+        </div>
+      </div>
+      <p class="hint" id="hintVolume">Volume stimato: — m³</p>
+    </div>
+
+    <!-- Demolizioni -->
+    <div class="gruppo-input" id="inputDemolizioni">
+      <div class="campo-row">
+        <div class="campo">
+          <label>Larghezza (m)</label>
+          <input type="number" id="demLarghezza" placeholder="es. 6" min="0.1" step="0.1"/>
+        </div>
+        <div class="campo">
+          <label>Lunghezza (m)</label>
+          <input type="number" id="demLunghezza" placeholder="es. 10" min="0.1" step="0.1"/>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Tipo di struttura</label>
+        <select id="struttura">
+          <option value="muratura">Muratura in mattoni</option>
+          <option value="misto">Struttura mista</option>
+          <option value="cls">Calcestruzzo armato (C.A.)</option>
+        </select>
+      </div>
+      <p class="hint" id="hintDem">Superficie stimata: — m²</p>
+    </div>
+
+    <!-- Inerti / Smaltimento -->
+    <div class="gruppo-input" id="inputCubi">
+      <div class="campo">
+        <label id="labelCubi">Quantità stimata (m³)</label>
+        <select id="quantitaCubi">
+          <option value="3">Piccola quantità — circa 3 m³</option>
+          <option value="8">Media quantità — circa 8 m³</option>
+          <option value="15">Grande quantità — circa 15 m³</option>
+          <option value="30">Molto grande — circa 30 m³</option>
+          <option value="60">Cantiere importante — circa 60 m³</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Radici / Ceppaie -->
+    <div class="gruppo-input" id="inputRadici">
+      <div class="campo-row">
+        <div class="campo">
+          <label>Numero di ceppaie</label>
+          <input type="number" id="numCeppaie" placeholder="es. 3" min="1" step="1"/>
+        </div>
+        <div class="campo">
+          <label>Diametro medio del tronco</label>
+          <select id="diametroCeppaia">
+            <option value="piccolo">Piccolo — fino a 30 cm</option>
+            <option value="medio" selected>Medio — 30–60 cm</option>
+            <option value="grande">Grande — oltre 60 cm</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-wizard">
+      <button class="btn-indietro" onclick="vaiStep(1)">← Indietro</button>
+      <button class="btn-avanti" onclick="vaiStep(3)">Avanti →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Dettagli -->
+  <div class="step-content" id="step3">
+    <div class="step-titolo">Qualche dettaglio in più</div>
+    <div class="step-sub">Ci aiutano a stimare meglio il costo reale del lavoro.</div>
+
+    <div class="campo" id="campoTerreno">
+      <label>Tipo di terreno</label>
+      <div class="scelte">
+        <div class="scelta attiva" onclick="selScelta(this,'terreno','morbido')">
+          <strong>Morbido</strong>
+          <small>Terra, argilla, sabbia</small>
+        </div>
+        <div class="scelta" onclick="selScelta(this,'terreno','misto')">
+          <strong>Misto</strong>
+          <small>Terra con sassi e ghiaia</small>
+        </div>
+        <div class="scelta" onclick="selScelta(this,'terreno','roccioso')">
+          <strong>Roccioso</strong>
+          <small>Roccia, cls, fondazioni</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="campo" style="margin-top:20px;">
+      <label>Accessibilità del cantiere</label>
+      <div class="scelte">
+        <div class="scelta attiva" onclick="selScelta(this,'accesso','facile')">
+          <strong>Facile</strong>
+          <small>Spazio aperto, mezzi grandi</small>
+        </div>
+        <div class="scelta" onclick="selScelta(this,'accesso','media')">
+          <strong>Media</strong>
+          <small>Qualche limitazione</small>
+        </div>
+        <div class="scelta" onclick="selScelta(this,'accesso','difficile')">
+          <strong>Difficile</strong>
+          <small>Spazio ristretto, solo mini</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="campo" style="margin-top:20px;">
+      <label>Distanza da Mezzomerico (NO)</label>
+      <div class="scelte">
+        <div class="scelta attiva" onclick="selScelta(this,'distanza','vicino')">
+          <strong>Vicino</strong>
+          <small>Entro 20 km</small>
+        </div>
+        <div class="scelta" onclick="selScelta(this,'distanza','medio')">
+          <strong>Media</strong>
+          <small>20–50 km</small>
+        </div>
+        <div class="scelta" onclick="selScelta(this,'distanza','lontano')">
+          <strong>Lontano</strong>
+          <small>Oltre 50 km</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="campo" style="margin-top:20px;" id="campoSmaltimento">
+      <label>Smaltimento macerie incluso?</label>
+      <div class="scelte">
+        <div class="scelta" onclick="selScelta(this,'smaltimentoInc','no')">
+          <strong>No</strong>
+          <small>Gestisco io lo smaltimento</small>
+        </div>
+        <div class="scelta attiva" onclick="selScelta(this,'smaltimentoInc','si')">
+          <strong>Sì</strong>
+          <small>Incluso nel preventivo</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-wizard">
+      <button class="btn-indietro" onclick="vaiStep(2)">← Indietro</button>
+      <button class="btn-avanti" onclick="calcolaEVaiStep4()">Calcola stima →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: Risultato -->
+  <div class="step-content" id="step4">
+    <div class="step-titolo">La tua stima</div>
+    <div class="step-sub">Basata sui dati inseriti. Il preventivo definitivo è gratuito e viene confermato dopo il sopralluogo.</div>
+
+    <div class="risultato-box">
+      <div class="risultato-label">Stima indicativa del costo</div>
+      <div class="risultato-range" id="risultatoRange">€ 0 – € 0</div>
+      <div class="risultato-sub">IVA esclusa · Stima orientativa</div>
+    </div>
+
+    <div class="riepilogo">
+      <h4>Riepilogo lavoro</h4>
+      <div class="riepilogo-riga"><span>Servizio</span><span id="rieServizio">—</span></div>
+      <div class="riepilogo-riga"><span>Quantità</span><span id="rieQuantita">—</span></div>
+      <div class="riepilogo-riga"><span>Terreno</span><span id="rieTerreno">—</span></div>
+      <div class="riepilogo-riga"><span>Accessibilità</span><span id="rieAccesso">—</span></div>
+      <div class="riepilogo-riga"><span>Distanza</span><span id="rieDistanza">—</span></div>
+      <div class="riepilogo-riga"><span>Smaltimento incluso</span><span id="rieSmaltimento">—</span></div>
+    </div>
+
+    <div class="disclaimer">
+      <strong style="color:#fff;">Nota importante:</strong> questa stima è puramente indicativa e calcolata su parametri medi. Il prezzo reale dipende da fattori che possono essere valutati solo con un sopralluogo. <strong style="color:#fff;">Il sopralluogo e il preventivo definitivo sono sempre gratuiti.</strong>
+    </div>
+
+    <a href="#" id="btnWhatsApp" class="btn-wa" target="_blank" rel="noopener">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M22.9 9.1A9.7 9.7 0 0 0 16 6.3a9.8 9.8 0 0 0-8.5 14.6L6.3 25.7l4.9-1.3a9.8 9.8 0 0 0 4.8 1.2 9.8 9.8 0 0 0 9.8-9.8 9.7 9.7 0 0 0-2.9-6.7zm-6.9 15.1a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3a8.1 8.1 0 1 1 6.8 3.7zm4.5-6.1c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.7.8-.8 1-.2.2-.3.2-.5.1a7 7 0 0 1-2-1.3 7.5 7.5 0 0 1-1.4-1.8c-.1-.2 0-.4.1-.5l.4-.4.2-.4v-.4l-.7-1.8c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3a3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.8 11.8 0 0 0 4.5 4 5 5 0 0 0 1.7.5 2.7 2.7 0 0 0 1.8-.6 2.3 2.3 0 0 0 .6-1.5c0-.2-.2-.4-.4-.5z"/></svg>
+      Invia la stima su WhatsApp e prenota il sopralluogo
+    </a>
+
+    <span class="btn-riparti" onclick="ricomincia()">← Ricomincia con un nuovo lavoro</span>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <strong>Bottelli Nicholas</strong> — P.IVA 02853010037 &nbsp;|&nbsp;
+  Mezzomerico (NO) &nbsp;|&nbsp;
+  <a href="tel:+393495688609">+39 349 568 8609</a>
+  <br/><br/>
+  <span style="color:#444;">© 2025 Bottelli Nicholas — <a href="index.html">Torna al sito</a></span>
+</footer>
+
+<script>
+  const stato = {
+    servizio: null,
+    nomeServizio: '',
+    terreno: 'morbido',
+    accesso: 'facile',
+    distanza: 'vicino',
+    smaltimentoInc: 'si',
+  };
+
+  const nomiServizi = {
+    scavi: 'Scavi e movimento terra',
+    precisione: 'Scavi di precisione',
+    demolizioni: 'Demolizioni controllate',
+    inerti: 'Fornitura terra e inerti',
+    radici: 'Rimozione radici e ceppaie',
+    smaltimento: 'Smaltimento macerie',
+    piscine: 'Fornitura e posa piscine',
+  };
+
+  const prezziBase = {
+    scavi:       { min: 10, max: 22 },
+    precisione:  { min: 18, max: 35 },
+    demolizioni: { min: 15, max: 38 },
+    inerti:      { min: 25, max: 45 },
+    radici:      { piccolo: [150,250], medio: [250,420], grande: [420,700] },
+    smaltimento: { min: 45, max: 85 },
+    piscine:     { min: 28, max: 58 },
+  };
+
+  const mTerreno  = { morbido: 1.0, misto: 1.28, roccioso: 1.6 };
+  const mAccesso  = { facile: 1.0, media: 1.2, difficile: 1.45 };
+  const mDistanza = { vicino: 1.0, medio: 1.1, lontano: 1.22 };
+
+  function selezionaServizio(id, el) {
+    document.querySelectorAll('.card-serv').forEach(c => c.classList.remove('selezionata'));
+    el.classList.add('selezionata');
+    stato.servizio = id;
+    stato.nomeServizio = nomiServizi[id];
+    document.getElementById('btnAvanti1').disabled = false;
+  }
+
+  function selScelta(el, campo, valore) {
+    el.closest('.scelte').querySelectorAll('.scelta').forEach(s => s.classList.remove('attiva'));
+    el.classList.add('attiva');
+    stato[campo] = valore;
+  }
+
+  function vaiStep(n) {
+    document.querySelectorAll('.step-content').forEach(s => s.classList.remove('visibile'));
+    document.getElementById('step' + n).classList.add('visibile');
+    aggiornaDots(n);
+    if (n === 2) preparaStep2();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function aggiornaDots(attivo) {
+    for (let i = 1; i <= 4; i++) {
+      const dot = document.getElementById('dot' + i);
+      dot.classList.remove('attivo', 'completato');
+      if (i < attivo) dot.classList.add('completato');
+      else if (i === attivo) dot.classList.add('attivo');
+    }
+    for (let i = 1; i <= 3; i++) {
+      const l = document.getElementById('linea' + i);
+      l.classList.toggle('attiva', i < attivo);
+    }
+  }
+
+  function preparaStep2() {
+    const s = stato.servizio;
+    document.querySelectorAll('.gruppo-input').forEach(g => g.classList.remove('visibile'));
+
+    const mappaGruppi = {
+      scavi: 'inputVolume', precisione: 'inputVolume', piscine: 'inputVolume',
+      demolizioni: 'inputDemolizioni',
+      inerti: 'inputCubi', smaltimento: 'inputCubi',
+      radici: 'inputRadici',
+    };
+    const gruppo = document.getElementById(mappaGruppi[s]);
+    if (gruppo) gruppo.classList.add('visibile');
+
+    if (s === 'inerti') document.getElementById('labelCubi').textContent = 'Quantità di materiale (m³)';
+    if (s === 'smaltimento') document.getElementById('labelCubi').textContent = 'Quantità di macerie da smaltire (m³)';
+
+    // Terreno non rilevante per inerti/smaltimento
+    document.getElementById('campoTerreno').style.display =
+      (s === 'inerti' || s === 'smaltimento') ? 'none' : 'block';
+
+    // Smaltimento incluso non rilevante se il servizio è già smaltimento
+    document.getElementById('campoSmaltimento').style.display =
+      (s === 'smaltimento' || s === 'inerti' || s === 'radici') ? 'none' : 'block';
+
+    // Aggiorna hint volume live
+    ['larghezza','lunghezza','profondita','demLarghezza','demLunghezza'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', aggiornaHint);
+    });
+  }
+
+  function aggiornaHint() {
+    const s = stato.servizio;
+    if (s === 'scavi' || s === 'precisione' || s === 'piscine') {
+      const l = parseFloat(document.getElementById('larghezza').value) || 0;
+      const lu = parseFloat(document.getElementById('lunghezza').value) || 0;
+      const p = parseFloat(document.getElementById('profondita').value) || 0;
+      const vol = (l * lu * p).toFixed(1);
+      document.getElementById('hintVolume').textContent = vol > 0 ? `Volume stimato: ${vol} m³` : 'Volume stimato: — m³';
+    }
+    if (s === 'demolizioni') {
+      const la = parseFloat(document.getElementById('demLarghezza').value) || 0;
+      const lu = parseFloat(document.getElementById('demLunghezza').value) || 0;
+      const sup = (la * lu).toFixed(1);
+      document.getElementById('hintDem').textContent = sup > 0 ? `Superficie stimata: ${sup} m²` : 'Superficie stimata: — m²';
+    }
+  }
+
+  function calcolaEVaiStep4() {
+    const s = stato.servizio;
+    let prezzoMin = 0, prezzoMax = 0;
+    let quantitaLabel = '—';
+
+    const mt = mTerreno[stato.terreno] || 1;
+    const ma = mAccesso[stato.accesso] || 1;
+    const md = mDistanza[stato.distanza] || 1;
+
+    if (s === 'scavi' || s === 'precisione' || s === 'piscine') {
+      const l  = parseFloat(document.getElementById('larghezza').value) || 0;
+      const lu = parseFloat(document.getElementById('lunghezza').value) || 0;
+      const p  = parseFloat(document.getElementById('profondita').value) || 0;
+      const vol = l * lu * p;
+      prezzoMin = prezziBase[s].min * vol * mt * ma * md;
+      prezzoMax = prezziBase[s].max * vol * mt * ma * md;
+      if (stato.smaltimentoInc === 'si' && s !== 'piscine') {
+        prezzoMin += vol * 35;
+        prezzoMax += vol * 55;
+      }
+      quantitaLabel = vol > 0 ? `${vol.toFixed(1)} m³` : '—';
+
+    } else if (s === 'demolizioni') {
+      const la  = parseFloat(document.getElementById('demLarghezza').value) || 0;
+      const lu  = parseFloat(document.getElementById('demLunghezza').value) || 0;
+      const sup = la * lu;
+      const stru = document.getElementById('struttura').value;
+      const mStru = stru === 'cls' ? 1.35 : stru === 'misto' ? 1.15 : 1.0;
+      prezzoMin = prezziBase.demolizioni.min * sup * mStru * ma * md;
+      prezzoMax = prezziBase.demolizioni.max * sup * mStru * ma * md;
+      if (stato.smaltimentoInc === 'si') {
+        prezzoMin += sup * 0.4 * 45;
+        prezzoMax += sup * 0.4 * 65;
+      }
+      quantitaLabel = sup > 0 ? `${sup.toFixed(1)} m²` : '—';
+
+    } else if (s === 'inerti' || s === 'smaltimento') {
+      const q = parseFloat(document.getElementById('quantitaCubi').value) || 0;
+      prezzoMin = prezziBase[s].min * q * ma * md;
+      prezzoMax = prezziBase[s].max * q * ma * md;
+      quantitaLabel = `${q} m³`;
+
+    } else if (s === 'radici') {
+      const n = parseInt(document.getElementById('numCeppaie').value) || 0;
+      const diam = document.getElementById('diametroCeppaia').value;
+      const range = prezziBase.radici[diam];
+      prezzoMin = range[0] * n * ma * md;
+      prezzoMax = range[1] * n * ma * md;
+      quantitaLabel = n > 0 ? `${n} ceppai${n > 1 ? 'e' : 'a'}` : '—';
+    }
+
+    // Minimo di cantiere
+    prezzoMin = Math.max(prezzoMin, 280);
+    prezzoMax = Math.max(prezzoMax, 450);
+
+    // Arrotonda a decine
+    prezzoMin = Math.round(prezzoMin / 10) * 10;
+    prezzoMax = Math.round(prezzoMax / 10) * 10;
+
+    // Aggiorna UI
+    document.getElementById('risultatoRange').textContent =
+      `€ ${prezzoMin.toLocaleString('it-IT')} – € ${prezzoMax.toLocaleString('it-IT')}`;
+
+    const nomiTerreno   = { morbido: 'Morbido', misto: 'Misto (terra + sassi)', roccioso: 'Roccioso / cls' };
+    const nomiAccesso   = { facile: 'Facile', media: 'Media', difficile: 'Difficile' };
+    const nomiDistanza  = { vicino: 'Entro 20 km', medio: '20–50 km', lontano: 'Oltre 50 km' };
+
+    document.getElementById('rieServizio').textContent   = nomiServizi[s];
+    document.getElementById('rieQuantita').textContent   = quantitaLabel;
+    document.getElementById('rieTerreno').textContent    = nomiTerreno[stato.terreno] || '—';
+    document.getElementById('rieAccesso').textContent    = nomiAccesso[stato.accesso];
+    document.getElementById('rieDistanza').textContent   = nomiDistanza[stato.distanza];
+    document.getElementById('rieSmaltimento').textContent =
+      (s === 'smaltimento' || s === 'inerti' || s === 'radici') ? 'N/A' :
+      (stato.smaltimentoInc === 'si' ? 'Sì, incluso' : 'No');
+
+    // WhatsApp
+    const msg = [
+      `Ciao Nicholas, ho usato il preventivatore sul sito e vorrei un sopralluogo gratuito.`,
+      ``,
+      `*Servizio richiesto:* ${nomiServizi[s]}`,
+      `*Quantità:* ${quantitaLabel}`,
+      `*Terreno:* ${nomiTerreno[stato.terreno] || '—'}`,
+      `*Accessibilità:* ${nomiAccesso[stato.accesso]}`,
+      `*Distanza:* ${nomiDistanza[stato.distanza]}`,
+      `*Smaltimento incluso:* ${document.getElementById('rieSmaltimento').textContent}`,
+      ``,
+      `*Stima ottenuta:* € ${prezzoMin.toLocaleString('it-IT')} – € ${prezzoMax.toLocaleString('it-IT')}`,
+      ``,
+      `Quando sei disponibile per un sopralluogo?`
+    ].join('\n');
+
+    document.getElementById('btnWhatsApp').href =
+      `https://wa.me/393495688609?text=${encodeURIComponent(msg)}`;
+
+    vaiStep(4);
+  }
+
+  function ricomincia() {
+    stato.servizio = null;
+    stato.terreno = 'morbido';
+    stato.accesso = 'facile';
+    stato.distanza = 'vicino';
+    stato.smaltimentoInc = 'si';
+    document.querySelectorAll('.card-serv').forEach(c => c.classList.remove('selezionata'));
+    document.getElementById('btnAvanti1').disabled = true;
+    // Reset scelte
+    document.querySelectorAll('.scelte').forEach(g => {
+      g.querySelectorAll('.scelta').forEach((s, i) => {
+        s.classList.toggle('attiva', i === 0);
+      });
+    });
+    vaiStep(1);
+  }
+</script>
+
+</body>
+</html>
