@@ -101,12 +101,53 @@
       padding: 72px 0;
     }
 
+    /* scan line che attraversa l'hero */
+    .hero::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, transparent 0%, rgba(200,255,0,0.7) 50%, transparent 100%);
+      animation: scanLine 8s ease-in-out infinite 1.8s;
+      z-index: 1;
+      pointer-events: none;
+    }
+    @keyframes scanLine {
+      0%   { top: -2px;  opacity: 0; }
+      3%   {             opacity: 1; }
+      97%  {             opacity: 0.4; }
+      100% { top: 100%;  opacity: 0; }
+    }
+
     .hero-img {
       position: absolute;
-      inset: 0;
+      inset: -8%;
       background: url('hero.jpg') center/cover no-repeat;
       filter: brightness(0.35);
+      will-change: background-position;
+      transition: background-position 0.05s linear;
     }
+
+    /* ── Keyframes entrance ── */
+    @keyframes heroUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+    @keyframes heroRight {
+      from { opacity: 0; transform: translateX(36px); }
+      to   { opacity: 1; transform: translateX(0);    }
+    }
+
+    [data-anim] { opacity: 0; }
+    [data-anim="up"]    { transform: translateY(30px); }
+    [data-anim="right"] { transform: translateX(36px); }
+    [data-anim].appeared {
+      animation-fill-mode: both;
+      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      animation-duration: 0.7s;
+    }
+    [data-anim="up"].appeared    { animation-name: heroUp; }
+    [data-anim="right"].appeared { animation-name: heroRight; }
 
     .hero-inner {
       position: relative;
@@ -220,6 +261,21 @@
       flex-wrap: wrap;
     }
 
+    .badge {
+      animation: badgePulse 4s ease-in-out infinite;
+    }
+    @keyframes badgePulse {
+      0%, 100% { box-shadow: 0 0 0   0   rgba(200,255,0,0);    }
+      50%      { box-shadow: 0 0 22px 5px rgba(200,255,0,0.35); }
+    }
+
+    .word-cycle {
+      display: inline-block;
+      color: var(--arancio);
+      font-style: normal;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
     .btn-primary {
       background: var(--arancio);
       color: #000;
@@ -228,10 +284,24 @@
       text-decoration: none;
       font-weight: 700;
       font-size: 1rem;
-      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
     }
-
-    .btn-primary:hover { background: var(--arancio-scuro); }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.22) 50%, transparent 100%);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+    .btn-primary:hover::after { transform: translateX(100%); }
+    .btn-primary:hover {
+      background: var(--arancio-scuro);
+      box-shadow: 0 6px 28px rgba(200,255,0,0.5);
+      transform: translateY(-2px);
+    }
 
     .btn-secondary {
       border: 2px solid rgba(255,255,255,0.4);
@@ -241,10 +311,13 @@
       text-decoration: none;
       font-weight: 600;
       font-size: 1rem;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
     }
-
-    .btn-secondary:hover { border-color: var(--arancio); color: var(--arancio); }
+    .btn-secondary:hover {
+      border-color: var(--arancio);
+      color: var(--arancio);
+      transform: translateY(-2px);
+    }
 
     /* ─── STRIP NUMERI ───────────────────────────────── */
     .numeri {
@@ -869,11 +942,11 @@
   <div class="hero-inner">
 
     <div class="hero-top">
-      <div class="badge">Partita IVA — Lavori professionali</div>
-      <h2>Scavi, Movimento Terra<br/>e <em>Demolizioni</em> Controllate</h2>
+      <div class="badge" data-anim="up" data-delay="80">Partita IVA — Lavori professionali</div>
+      <h2 data-anim="up" data-delay="220">Scavi, Movimento Terra<br/>e <em class="word-cycle">Demolizioni</em> Controllate</h2>
     </div>
 
-    <div class="hero-video-wrap">
+    <div class="hero-video-wrap" data-anim="right" data-delay="360">
       <div class="hero-video-box">
         <!-- Sostituire l'ID YouTube con il video reale del cantiere -->
         <iframe
@@ -891,8 +964,8 @@
     </div>
 
     <div class="hero-bottom">
-      <p>Interveniamo su cantieri privati e aziendali con mezzi propri e personale specializzato. Preventivo gratuito entro 24 ore.</p>
-      <div class="hero-cta">
+      <p data-anim="up" data-delay="500">Interveniamo su cantieri privati e aziendali con mezzi propri e personale specializzato. Preventivo gratuito entro 24 ore.</p>
+      <div class="hero-cta" data-anim="up" data-delay="650">
         <a href="preventivo.html" class="btn-primary">Calcola il tuo preventivo →</a>
         <a href="#servizi" class="btn-secondary">Scopri i servizi</a>
       </div>
@@ -1255,7 +1328,62 @@
 </footer>
 
 <script>
-  // FAQ accordion
+  // ── Entrance animations ──
+  document.querySelectorAll('[data-anim]').forEach(el => {
+    const delay = parseInt(el.dataset.delay || 0);
+    setTimeout(() => {
+      el.classList.add('appeared');
+      // dopo la fine dell'animazione, rimuovi i vincoli per non bloccare hover ecc.
+      el.addEventListener('animationend', () => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+        el.removeAttribute('data-anim');
+      }, { once: true });
+    }, delay);
+  });
+
+  // ── Word cycling headline ──
+  const cycleWords = ['Demolizioni', 'Scavi', 'Piscine', 'Fondazioni'];
+  let wIdx = 0;
+  const wordEl = document.querySelector('.word-cycle');
+  if (wordEl) {
+    setInterval(() => {
+      wordEl.style.opacity = '0';
+      wordEl.style.transform = 'translateY(-10px)';
+      setTimeout(() => {
+        wIdx = (wIdx + 1) % cycleWords.length;
+        wordEl.textContent = cycleWords[wIdx];
+        wordEl.style.opacity = '1';
+        wordEl.style.transform = 'translateY(0)';
+      }, 270);
+    }, 2800);
+  }
+
+  // ── Parallax ──
+  const heroImg = document.querySelector('.hero-img');
+  let pMouseX = 0, pMouseY = 0, pScrollY = 0;
+
+  function applyParallax() {
+    if (!heroImg) return;
+    heroImg.style.backgroundPosition =
+      `calc(50% + ${pMouseX}px) calc(50% + ${pMouseY + pScrollY}px)`;
+  }
+
+  window.addEventListener('scroll', () => {
+    pScrollY = window.pageYOffset * 0.28;
+    applyParallax();
+  }, { passive: true });
+
+  // Mouse parallax solo su dispositivi con puntatore preciso (desktop)
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.addEventListener('mousemove', e => {
+      pMouseX = (e.clientX / window.innerWidth  - 0.5) * 22;
+      pMouseY = (e.clientY / window.innerHeight - 0.5) * 10;
+      applyParallax();
+    });
+  }
+
+  // ── FAQ accordion ──
   function toggleFaq(btn) {
     const risposta = btn.nextElementSibling;
     const aperta = btn.classList.contains('aperta');
