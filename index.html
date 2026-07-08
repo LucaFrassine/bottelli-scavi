@@ -577,6 +577,54 @@
     }
     .btn-preventivo:hover { background: #1e2400; }
 
+    /* ─── FAQ ───────────────────────────────────────────── */
+    .faq-lista {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .faq-domanda {
+      width: 100%;
+      background: none;
+      border: none;
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: left;
+      padding: 20px 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      transition: color 0.2s;
+    }
+    .faq-domanda:hover { color: var(--arancio); }
+    .faq-domanda.aperta { color: var(--arancio); }
+
+    .faq-icona {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      transition: transform 0.3s;
+    }
+    .faq-domanda.aperta .faq-icona { transform: rotate(180deg); }
+
+    .faq-risposta {
+      display: none;
+      padding: 0 0 20px 0;
+      color: #aaa;
+      font-size: 0.93rem;
+      line-height: 1.7;
+    }
+    .faq-risposta.visibile { display: block; }
+
     /* ─── FOOTER ─────────────────────────────────────── */
     footer {
       background: #000;
@@ -688,6 +736,8 @@
   <nav>
     <a href="#servizi">Servizi</a>
     <a href="#perche">Chi siamo</a>
+    <a href="#faq">FAQ</a>
+    <a href="testimonianze.html">Testimonianze</a>
     <a href="preventivo.html">Preventivo</a>
     <a href="tel:+393495688609" class="btn-tel">&#x260E; 349 568 8609</a>
   </nav>
@@ -708,22 +758,22 @@
 </section>
 
 <!-- ── NUMERI ──────────────────────────────────────────── -->
-<div class="numeri">
+<div class="numeri" id="stripNumeri">
   <div class="numero-item">
-    <strong>48h</strong>
-    <span>Preventivo in 48 ore</span>
+    <strong><span class="contatore" data-target="17">0</span></strong>
+    <span>Cantieri completati</span>
   </div>
   <div class="numero-item">
-    <strong>100%</strong>
-    <span>Smaltimento regolare</span>
+    <strong><span class="contatore" data-target="0">0</span></strong>
+    <span>Controversie</span>
   </div>
   <div class="numero-item">
-    <strong>Mezzi propri</strong>
-    <span>Nessun intermediario</span>
+    <strong><span class="contatore" data-target="1">0</span></strong>
+    <span>Anno di attività</span>
   </div>
   <div class="numero-item">
-    <strong>Reg. CCIAA</strong>
-    <span>Impresa iscritta</span>
+    <strong><span class="contatore" data-target="6">0</span></strong>
+    <span>Province servite</span>
   </div>
 </div>
 
@@ -862,6 +912,99 @@
 </section>
 
 
+<!-- ── FAQ ─────────────────────────────────────────────── -->
+<section class="sezione" id="faq" style="background:#111;">
+  <div class="sezione-titolo">
+    <h3>Domande frequenti</h3>
+    <p>Le risposte alle domande che ci fanno più spesso, prima di chiamarci.</p>
+    <div class="linea-arancio"></div>
+  </div>
+
+  <div class="faq-lista">
+
+    <div class="faq-item">
+      <button class="faq-domanda" onclick="toggleFaq(this)">
+        Avete il mini-escavatore per cantieri in spazi stretti?
+        <svg class="faq-icona" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-risposta">
+        Sì. Disponiamo di mini-escavatori compatti in grado di operare in cortili, giardini e spazi angusti dove i mezzi tradizionali non riescono ad accedere. È uno dei nostri punti di forza e ci permette di intervenire dove altri non possono.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-domanda" onclick="toggleFaq(this)">
+        Fate anche lo smaltimento delle macerie?
+        <svg class="faq-icona" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-risposta">
+        Sì. Gestiamo l'intero ciclo: demolizione, raccolta, carico, trasporto e smaltimento in impianti autorizzati. Tutti i trasporti vengono regolarizzati con i formulari di legge. Nessun pensiero per te.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-domanda" onclick="toggleFaq(this)">
+        In quanto tempo arrivate per il sopralluogo?
+        <svg class="faq-icona" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-risposta">
+        Generalmente entro 24–48 ore dalla richiesta. Il sopralluogo e il preventivo definitivo sono sempre gratuiti e senza nessun impegno da parte tua.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-domanda" onclick="toggleFaq(this)">
+        Operate solo a Novara o anche in altre province?
+        <svg class="faq-icona" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-risposta">
+        Operiamo nelle province di Novara, Milano, Varese, Vercelli, Biella e VCO. Per cantieri fuori da queste zone contattaci comunque: valutiamo insieme la fattibilità.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-domanda" onclick="toggleFaq(this)">
+        Come funziona il preventivo?
+        <svg class="faq-icona" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-risposta">
+        Puoi usare il nostro <a href="preventivo.html" style="color:var(--arancio); font-weight:700;">preventivatore online</a> per una stima immediata, oppure contattarci direttamente. Dopo un sopralluogo gratuito ti forniamo un preventivo scritto dettagliato entro 48 ore, senza costi nascosti.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-domanda" onclick="toggleFaq(this)">
+        Siete in regola con assicurazioni e iscrizioni?
+        <svg class="faq-icona" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-risposta">
+        Sì. Siamo regolarmente iscritti alla Camera di Commercio (P.IVA 02853010037) e operiamo con copertura assicurativa RC. Tutti i lavori vengono eseguiti nel pieno rispetto delle normative vigenti.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-domanda" onclick="toggleFaq(this)">
+        Quanto costa indicativamente uno scavo per piscina?
+        <svg class="faq-icona" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-risposta">
+        Dipende dalle dimensioni, dal tipo di terreno e dall'accessibilità del cantiere. Con il nostro <a href="preventivo.html" style="color:var(--arancio); font-weight:700;">preventivatore online</a> hai una stima in 2 minuti. Per un preventivo preciso, il sopralluogo è gratuito.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-domanda" onclick="toggleFaq(this)">
+        Fate anche lavori urgenti?
+        <svg class="faq-icona" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-risposta">
+        Dipende dalla disponibilità del momento. Contattaci direttamente su WhatsApp o per telefono: facciamo il possibile per venire incontro alle urgenze, spesso già entro 24 ore.
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- ── CONTATTI ────────────────────────────────────────── -->
 <section id="contatti">
   <div class="contatti">
@@ -942,6 +1085,47 @@
   <br/><br/>
   <span style="font-size:0.78rem; color:#666;">&copy; 2025 Bottelli Nicholas &mdash; Tutti i diritti riservati</span>
 </footer>
+
+<script>
+  // FAQ accordion
+  function toggleFaq(btn) {
+    const risposta = btn.nextElementSibling;
+    const aperta = btn.classList.contains('aperta');
+    document.querySelectorAll('.faq-domanda').forEach(b => {
+      b.classList.remove('aperta');
+      b.nextElementSibling.classList.remove('visibile');
+    });
+    if (!aperta) {
+      btn.classList.add('aperta');
+      risposta.classList.add('visibile');
+    }
+  }
+
+  // Counter animato
+  function animaContatori() {
+    document.querySelectorAll('.contatore').forEach(el => {
+      const target = parseInt(el.dataset.target);
+      if (target === 0) { el.textContent = '0'; return; }
+      const durata = 1200;
+      const step = Math.ceil(durata / (target * 16));
+      let corrente = 0;
+      const timer = setInterval(() => {
+        corrente += 1;
+        el.textContent = corrente;
+        if (corrente >= target) { el.textContent = target; clearInterval(timer); }
+      }, step);
+    });
+  }
+
+  const strip = document.getElementById('stripNumeri');
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      animaContatori();
+      observer.disconnect();
+    }
+  }, { threshold: 0.4 });
+  observer.observe(strip);
+</script>
 
 <!-- ── WHATSAPP FLOAT ───────────────────────────────────── -->
 <a class="wa-float" href="https://wa.me/393495688609?text=Ciao%20Nicholas%2C%20vorrei%20un%20preventivo%20per%20i%20vostri%20servizi." target="_blank" rel="noopener" aria-label="Contattaci su WhatsApp">
