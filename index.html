@@ -481,23 +481,103 @@
     }
 
     .card-servizio {
+      position: relative;
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s, border-color 0.3s;
       background: #161616;
+      border: 1px solid transparent;
+      opacity: 0;
     }
+
+    /* ── HUD corner brackets, si accendono in hover ── */
+    .card-servizio::before,
+    .card-servizio::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--arancio);
+      opacity: 0;
+      transition: opacity 0.3s, width 0.3s, height 0.3s;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .card-servizio::before { top: 9px; left: 9px; border-right: none; border-bottom: none; }
+    .card-servizio::after  { bottom: 9px; right: 9px; border-left: none; border-top: none; }
+    .card-servizio:hover::before,
+    .card-servizio:hover::after { opacity: 1; width: 28px; height: 28px; }
 
     .card-servizio:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 32px rgba(200,255,0,0.15);
+      transform: translateY(-6px);
+      box-shadow: 0 14px 36px rgba(200,255,0,0.2);
+      border-color: rgba(200,255,0,0.35);
     }
 
-    .card-servizio img {
+    /* ── Reveal allo scroll: card + wipe immagine ── */
+    @keyframes cardReveal {
+      from { opacity: 0; transform: translateY(46px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .griglia-servizi.in-view .card-servizio {
+      animation: cardReveal 0.8s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .griglia-servizi.in-view .card-servizio:nth-child(1) { animation-delay: 0s; }
+    .griglia-servizi.in-view .card-servizio:nth-child(2) { animation-delay: .09s; }
+    .griglia-servizi.in-view .card-servizio:nth-child(3) { animation-delay: .18s; }
+    .griglia-servizi.in-view .card-servizio:nth-child(4) { animation-delay: .27s; }
+    .griglia-servizi.in-view .card-servizio:nth-child(5) { animation-delay: .36s; }
+    .griglia-servizi.in-view .card-servizio:nth-child(6) { animation-delay: .45s; }
+    .griglia-servizi.in-view .card-servizio:nth-child(7) { animation-delay: .54s; }
+
+    .card-img-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-img-wrap img {
       width: 100%;
       aspect-ratio: 16/9;
       object-fit: cover;
       display: block;
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 1s cubic-bezier(0.16,1,0.3,1), transform 0.6s ease;
+    }
+    .griglia-servizi.in-view .card-img-wrap img {
+      clip-path: inset(0 0 0 0);
+      transition-delay: inherit;
+    }
+    .card-servizio:hover .card-img-wrap img { transform: scale(1.06); }
+
+    /* ── Scan-line che attraversa l'immagine in hover ── */
+    .card-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(100deg, transparent 42%, rgba(200,255,0,0.35) 50%, transparent 58%);
+      transform: translateX(-130%);
+      transition: transform 0.85s ease;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .card-servizio:hover .card-img-wrap::after { transform: translateX(130%); }
+
+    /* ── Indice HUD in stile lettura tecnica ── */
+    .card-index {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--arancio);
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(200,255,0,0.4);
+      padding: 3px 8px;
+      border-radius: 2px;
+      z-index: 3;
     }
 
     .card-corpo {
@@ -506,15 +586,34 @@
     }
 
     .card-icon {
+      position: relative;
+      display: inline-flex;
       margin-bottom: 12px;
       color: var(--arancio);
     }
+    .card-icon::before {
+      content: '';
+      position: absolute;
+      inset: -9px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,255,0,0.28), transparent 70%);
+      opacity: 0;
+      transform: scale(0.6);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .card-servizio:hover .card-icon::before { opacity: 1; transform: scale(1); }
     .card-icon svg {
+      position: relative;
+      z-index: 1;
       width: 28px;
       height: 28px;
       stroke: var(--arancio);
       stroke-width: 1.8;
       fill: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card-servizio, .card-img-wrap img { animation: none !important; transition: none !important; opacity: 1 !important; clip-path: none !important; }
     }
 
     .card-corpo h4 {
@@ -934,7 +1033,7 @@
       .sezione { padding: 52px 18px; }
       .sezione-titolo h3 { font-size: 1.6rem; }
       .griglia-servizi { grid-template-columns: 1fr; gap: 20px; }
-      .card-servizio img { height: 180px; }
+      .card-img-wrap img { height: 180px; }
 
       .perche { padding: 52px 18px; gap: 32px; }
       .perche-testo h3 { font-size: 1.55rem; }
@@ -1076,7 +1175,10 @@
   <div class="griglia-servizi">
 
     <div class="card-servizio">
-      <img src="scavi.jpg" alt="Scavi e movimento terra" loading="lazy" style="object-position: center 30%;"/>
+      <div class="card-img-wrap">
+        <span class="card-index">01</span>
+        <img src="scavi.jpg" alt="Scavi e movimento terra" loading="lazy" style="object-position: center 30%;"/>
+      </div>
       <div class="card-corpo">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 4-4"/><path d="m5 11 4.5-4.5a2.12 2.12 0 1 1 3 3L8 14l-3 3z"/><path d="m11 9 2-2"/><path d="m20 4-9 9"/><path d="m15 3 6 6"/></svg>
@@ -1087,7 +1189,10 @@
     </div>
 
     <div class="card-servizio">
-      <img src="precisione.jpg" alt="Scavi di precisione" loading="lazy" style="object-position: center 35%;"/>
+      <div class="card-img-wrap">
+        <span class="card-index">02</span>
+        <img src="precisione.jpg" alt="Scavi di precisione" loading="lazy" style="object-position: center 35%;"/>
+      </div>
       <div class="card-corpo">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
@@ -1098,7 +1203,10 @@
     </div>
 
     <div class="card-servizio">
-      <img src="demolizioni.jpg" alt="Demolizioni controllate" loading="lazy" style="object-position: center 35%;"/>
+      <div class="card-img-wrap">
+        <span class="card-index">03</span>
+        <img src="demolizioni.jpg" alt="Demolizioni controllate" loading="lazy" style="object-position: center 35%;"/>
+      </div>
       <div class="card-corpo">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg>
@@ -1109,7 +1217,10 @@
     </div>
 
     <div class="card-servizio">
-      <img src="inerti.jpg" alt="Fornitura terra e inerti" loading="lazy" style="object-position: center 55%;"/>
+      <div class="card-img-wrap">
+        <span class="card-index">04</span>
+        <img src="inerti.jpg" alt="Fornitura terra e inerti" loading="lazy" style="object-position: center 55%;"/>
+      </div>
       <div class="card-corpo">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg>
@@ -1120,7 +1231,10 @@
     </div>
 
     <div class="card-servizio">
-      <img src="radici.jpg" alt="Rimozione radici e ceppaie" loading="lazy" style="object-position: center 40%;"/>
+      <div class="card-img-wrap">
+        <span class="card-index">05</span>
+        <img src="radici.jpg" alt="Rimozione radici e ceppaie" loading="lazy" style="object-position: center 40%;"/>
+      </div>
       <div class="card-corpo">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14h.01"/><path d="M7 7h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7"/><path d="M5 17H3"/><path d="M5 7H3"/><path d="M5 12H3"/><path d="M5 2v5"/><path d="M5 17v5"/><path d="m17 14 3-3-3-3"/></svg>
@@ -1131,7 +1245,10 @@
     </div>
 
     <div class="card-servizio">
-      <img src="smaltimento.jpg" alt="Smaltimento macerie" loading="lazy" style="object-position: center 40%;"/>
+      <div class="card-img-wrap">
+        <span class="card-index">06</span>
+        <img src="smaltimento.jpg" alt="Smaltimento macerie" loading="lazy" style="object-position: center 40%;"/>
+      </div>
       <div class="card-corpo">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"/><path d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12"/><path d="m14 16-3 3 3 3"/><path d="M8.293 13.596 7.196 9.5 3.1 10.598"/><path d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843"/><path d="m13.378 9.633 4.096 1.098 1.097-4.096"/></svg>
@@ -1142,7 +1259,10 @@
     </div>
 
     <div class="card-servizio">
-      <img src="piscine.jpg" alt="Fornitura e posa piscine" loading="lazy"/>
+      <div class="card-img-wrap">
+        <span class="card-index">07</span>
+        <img src="piscine.jpg" alt="Fornitura e posa piscine" loading="lazy"/>
+      </div>
       <div class="card-corpo">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="M2 12c2-4 4-6 6-6s4 4 6 4 4-4 6-4"/><path d="M2 18c2-2 4-3 6-3s4 2 6 2 4-2 6-2"/></svg>
@@ -1467,6 +1587,18 @@
         if (corrente >= target) { el.textContent = target; clearInterval(timer); }
       }, step);
     });
+  }
+
+  // ── Reveal card servizi allo scroll ──
+  const grigliaServizi = document.querySelector('.griglia-servizi');
+  if (grigliaServizi) {
+    const serviziObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        grigliaServizi.classList.add('in-view');
+        serviziObserver.disconnect();
+      }
+    }, { threshold: 0.15 });
+    serviziObserver.observe(grigliaServizi);
   }
 
   const strip = document.getElementById('stripNumeri');
