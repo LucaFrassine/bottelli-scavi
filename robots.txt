@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://DOMINIO-PLACEHOLDER.it/sitemap.xml
+Sitemap: https://bottelliscavi.it/sitemap.xml
