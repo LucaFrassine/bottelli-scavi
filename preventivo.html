@@ -577,7 +577,7 @@
 
     <div class="nav-wizard">
       <button class="btn-indietro" onclick="vaiStep(1)">← Indietro</button>
-      <button class="btn-avanti" onclick="vaiStep(3)">Avanti →</button>
+      <button class="btn-avanti" id="btnAvanti2" onclick="avantiStep2()">Avanti →</button>
     </div>
   </div>
 
@@ -803,6 +803,20 @@
       const el = document.getElementById(id);
       if (el) el.addEventListener('input', aggiornaHint);
     });
+
+    // Radici/ceppaie: niente calcolo prezzo, si invia direttamente su WhatsApp
+    const btnAvanti2 = document.getElementById('btnAvanti2');
+    const numCeppaieEl = document.getElementById('numCeppaie');
+    if (s === 'radici') {
+      btnAvanti2.textContent = 'Invia richiesta su WhatsApp →';
+      const aggiornaStatoBtn = () => { btnAvanti2.disabled = (parseInt(numCeppaieEl.value) || 0) < 1; };
+      aggiornaStatoBtn();
+      numCeppaieEl.oninput = aggiornaStatoBtn;
+    } else {
+      btnAvanti2.textContent = 'Avanti →';
+      btnAvanti2.disabled = false;
+      numCeppaieEl.oninput = null;
+    }
   }
 
   function aggiornaHint() {
@@ -820,6 +834,32 @@
       const sup = (la * lu).toFixed(1);
       document.getElementById('hintDem').textContent = sup > 0 ? `Superficie stimata: ${sup} m²` : 'Superficie stimata: — m²';
     }
+  }
+
+  function avantiStep2() {
+    if (stato.servizio === 'radici') {
+      inviaRichiestaRadici();
+    } else {
+      vaiStep(3);
+    }
+  }
+
+  function inviaRichiestaRadici() {
+    const n = parseInt(document.getElementById('numCeppaie').value) || 0;
+    const diam = document.getElementById('diametroCeppaia').value;
+    const nomiDiametro = { piccolo: 'piccolo — fino a 30 cm', medio: 'medio — 30–60 cm', grande: 'grande — oltre 60 cm' };
+    const quantitaLabel = n > 0 ? `${n} ceppai${n > 1 ? 'e' : 'a'}` : 'da definire';
+
+    const msg = [
+      `Ciao Nicholas, vorrei un preventivo per la rimozione di radici e ceppaie.`,
+      ``,
+      `*Numero di ceppaie:* ${quantitaLabel}`,
+      `*Diametro medio:* ${nomiDiametro[diam] || '—'}`,
+      ``,
+      `Quando sei disponibile per un sopralluogo?`
+    ].join('\n');
+
+    window.open(`https://wa.me/393780040652?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
   }
 
   function calcolaEVaiStep4() {
